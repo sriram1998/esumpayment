@@ -1,0 +1,200 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+
+<div class="valign-wrapper" style="width:100%;height:100%;position: absolute;">
+    <div class="valign" style="width:100%;">
+        <div class="container">
+           <div class="row">
+              <div class="col s12 m6 offset-m3">
+                 <div class="card">
+                    <div class="card-content">
+                        <span class="card-title black-text" style="text-align: center;">Details</span>
+                        <form method="post">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">account_circle</i>
+                                    <input name="userName" id="userName" class="validate" required="" aria-required="true" type="text">
+                                    <label for="userName"> Name</label>
+                                    <span id="userSpan"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                   
+                                    <input name="contact" id="contact" class="validate" required="" aria-required="true" type="text">
+                                    <label for="contact">Contact</label>
+                                    <span id="contactSpan"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                   
+                                    <input name="email" id="email" class="validate" required="" aria-required="true" type="email">
+                                    <label for="email">Email</label>
+                                    <span id="emailSpan"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                   
+                                    <input name="rollnum" id="rollnum" class="validate" required="" aria-required="true" type="text">
+                                    <label for="rollnum">Roll Number</label>
+                                    <span id="rollnumSpan"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                   
+                                    <input name="college" id="college" class="validate" required="" aria-required="true" type="text">
+                                    <label for="college">College</label>
+                                    <span id="collegeSpan"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                  
+    
+                                   
+                                 
+                                    <input name="year" id="year" class="validate" required="" aria-required="true" type="text">
+                                    <label for="year">Year of Study</label>
+                                    <span id="yearSpan"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                   
+                                    <input name="event" id="event" class="validate" required="" aria-required="true" type="text">
+                                    <label for="event">Event</label>
+                                    <span id="eventSpan"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                   
+                                    <input name="coupon" id="contact" class="validate" required="" aria-required="true" type="text">
+                                    <label for="coupon">Coupon</label>
+                                    <span id="couponSpan"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="input-field col s6 m4 offset-m4 offset-s3">
+                                    <input class="btn" value="Register" type="button" onclick="register();">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+var nameCheck = false;
+var psw = false;
+function colorName(color, message) {
+    document.getElementById('userName').style.borderBottomColor = color;
+    document.getElementById('userName').style["boxShadow"] =`0px 1px 0px 0px ${color}`;
+    $("label[for='userName']").css("color", color);
+    $('#account_circle').css("color", color);
+    $('#userSpan').css('color', color);
+    document.getElementById('userSpan').innerHTML = message;
+}
+
+
+$('#userName').on('keyup keydown', function(e) {
+    if($('#userName').val() != 0) {
+        colorName("#26a69a", "SUCCESS")
+    } else {
+        colorName("#f44336", "This field cannot be empty")
+    }
+});
+$('#userName').on('focusout', function(e) {
+    if($('#userName').val() != 0) {
+        colorName("#4caf50", "");
+        nameCheck = true;
+    } else {
+        colorName("#f44336", "This field cannot be empty");
+        nameCheck = false;
+    }
+});
+$("#formValidate").validate({
+        rules: {
+            name: {
+                required: true,
+                minlength: 5
+            },
+            email: {
+                required: true,
+                email:true
+            },
+            contact: {
+                required: true,
+                minlength: 5
+            },
+            rollnum: {
+                required: true,
+                minlength: 5,
+                
+            },
+
+
+         
+        
+        messages: {
+            name:{
+                required: "Enter a username",
+                minlength: "Enter at least 5 characters"
+            },
+            Email: "Enter your mail id",
+            contact:"Enter your contact number",
+
+        },
+        errorElement : 'div',
+        errorPlacement: function(error, element) {
+          var placement = $(element).data('error');
+          if (placement) {
+            $(placement).append(error)
+          } else {
+            error.insertAfter(element);
+          }
+        }
+     }});
+function register() {
+    let data = $('form').serializeArray();
+    
+        $.ajax({
+            type: "POST",
+            url: "payment.php",
+            data: {userName: data[0].value, contact:data[1].value , email:data[2].value , rollnum:data[3].value , college:data[4].value , year:data[5].value , event:data[6].value , coupon:data[7].value},
+            success: function(data){
+              console.log(data);
+              $('#response').html(data);
+              if(data=="Success")
+              {
+                    var url = window.location.href;
+                    url = url.replace(/\/[^\/]*$/, '/pProfile.php');
+                    window.location.href = url;
+                  }
+             else{
+                $('#response').html('There is an error!');
+             }
+            },
+            fail: function(data){
+                $('#response').html('There is an error!');
+            }
+        });
+     
+}
+</script>
+</body>
+</html>
